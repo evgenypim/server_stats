@@ -1,5 +1,5 @@
 api_key: abc123
-api_url: http://api.url.com 
+api_url: http://qa02.oneit.com.au:10080/vpsstat/extensions/vpsstat/recordData.jsp
 
 # For disks subsystem
 disks:
