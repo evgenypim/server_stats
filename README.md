@@ -1,7 +1,17 @@
 # server_stats
 script to collect some stats
-Config file path: /etc/stats.yaml - regular yaml file.
 
+# INSTALL
+```
+cd /root/
+git clone git@github.com:evgenypim/server_stats.git
+cd ./server_stats
+ln -sf /root/server_stats/etc/stats.yaml /etc/
+vi ./etc/stats.yaml
+```
+
+# Config description
+Config file path: /etc/stats.yaml - regular yaml file.
 ```
 #API key and URL
 api_key: abc123
