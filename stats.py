@@ -167,9 +167,11 @@ def main():
     print "API request date: %s  json %s" % (date, json_data, )
 
     resp = requests.post(config['api_url'], data = {'json': json_data})
+    if resp.status_code != 200:
+        process_exception("API responded with non 200 status. code: %s body: %s" %(resp.status_code, resp.text), critical = True)
+
     if resp.json()['status'] == 'ERROR':
         process_exception("Error while sending data status: %(status)s errorDetails: %(errorDetails)s" % resp.json(), critical = True)
-
 
     sys.exit(EXIT_CODE if EXIT_CODE < 256 else 255)
 
