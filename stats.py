@@ -163,6 +163,8 @@ def main():
             "apiKey":  config['api_key'],
             "records": stats
             })
+    date = now()
+    print "API request date: %s  json %s" % (date, json_data, )
 
     resp = requests.post(config['api_url'], data = {'json': json_data})
     if resp.json()['status'] == 'ERROR':
