@@ -35,7 +35,7 @@ def now():
     return time.strftime(DATEFMT)
 
 def b_to_mb(val):
-    return val / 2**20
+    return float(val) / 2**20
 
 # Returns used space fo mount points from config
 def disks_stats():
@@ -63,7 +63,7 @@ def disks_stats():
     return usages
 
 def s_to_milliseconds(val):
-    return int(val * 100)
+    return int(val * 10**3)
 
 # Returns iowait and user+sus times in milliseconds
 def cpu_stats():
