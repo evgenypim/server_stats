@@ -10,6 +10,8 @@ cp ./stats.yaml.example ./stats.yaml
 vi ./stats.yaml
 ln -sf /root/server_stats/etc/stats.yaml /etc/
 ```
+# Dependencies
+apt-get install python-yaml python-psutil
 
 # Config description
 Config file path: /etc/stats.yaml - regular yaml file.
