@@ -5,9 +5,10 @@ script to collect some stats
 ```
 cd /root/
 git clone git@github.com:evgenypim/server_stats.git
-cd ./server_stats
+cd ./server_stats/etc
+cp ./stats.yaml.example ./stats.yaml
+vi ./stats.yaml
 ln -sf /root/server_stats/etc/stats.yaml /etc/
-vi ./etc/stats.yaml
 ```
 
 # Config description
