@@ -115,8 +115,8 @@ def network_stats():
         date = now()
         print "NET date: %s interface: %s recv: %s sent: %s" % (date, interface, counter.bytes_recv, counter.bytes_sent, )
         network_bytes.extend([
-                {"date": date, "t": "NET", "d1": HOSTNAME, "d2": "%s_recv" % interface, "V": counter.bytes_recv},
-                {"date": date, "t": "NET", "d1": HOSTNAME, "d2": "%s_sent" % interface, "V": counter.bytes_sent},
+                {"date": date, "t": "NET", "d1": HOSTNAME, "d2": interface, "d3": "recv", "V": counter.bytes_recv},
+                {"date": date, "t": "NET", "d1": HOSTNAME, "d2": interface, "d3": "sent", "V": counter.bytes_sent},
                 ])
 
     return network_bytes
@@ -141,8 +141,8 @@ def io_stats():
         date = now()
         print "DISK date: %s block_dev: %s reads: %s writes: %s" % (date, dev, counter.read_count, counter.write_count, )
         io_perdev.extend([
-               {"date": date, "t": "DISK", "d1": HOSTNAME, "d2": "%s_reads" % dev, "V": counter.read_count},
-               {"date": date, "t": "DISK", "d1": HOSTNAME, "d2": "%s_writes" % dev, "V": counter.write_count},
+               {"date": date, "t": "DISK", "d1": HOSTNAME, "d2": dev, "d3": "reads", "V": counter.read_count},
+               {"date": date, "t": "DISK", "d1": HOSTNAME, "d2": dev, "d3": "reads", "V": counter.write_count},
                ])
 
     return io_perdev
