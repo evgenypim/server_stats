@@ -142,7 +142,7 @@ def io_stats():
         print "DISK date: %s block_dev: %s reads: %s writes: %s" % (date, dev, counter.read_count, counter.write_count, )
         io_perdev.extend([
                {"date": date, "t": "DISK", "d1": HOSTNAME, "d2": dev, "d3": "reads", "V": counter.read_count},
-               {"date": date, "t": "DISK", "d1": HOSTNAME, "d2": dev, "d3": "reads", "V": counter.write_count},
+               {"date": date, "t": "DISK", "d1": HOSTNAME, "d2": dev, "d3": "writes", "V": counter.write_count},
                ])
 
     return io_perdev
