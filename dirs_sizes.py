@@ -1,10 +1,9 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 
 import os, sys
 import yaml,json
 import logging, time
 import requests
-import psutil
 
 EXIT_CODE=0
 HOSTNAME = os.uname()[1]
