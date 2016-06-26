@@ -4,6 +4,7 @@ import os, sys
 import yaml,json
 import logging, time
 import requests
+import subprocess
 
 EXIT_CODE=0
 HOSTNAME = os.uname()[1]
@@ -32,8 +33,8 @@ config = parse_config()
 def now():
     return time.strftime(DATEFMT)
 
-def b_to_mb(val):
-    return float(val) / 2**20
+def kb_to_mb(val):
+    return float(val) / 2**10
 
 def dirs_size():
     sizes = []
@@ -49,14 +50,10 @@ def dirs_size():
         if not os.path.exists(directory):
             process_exception("%s is not exists. skip..." % directory )
 
-        size = 0
-        for root, dirs, files in os.walk(directory):
-            __files_paths = map(lambda x: os.path.join(root, x), files)
-            files_paths = filter(lambda x: not os.path.islink(x), __files_paths)
-            files_sizes = [ os.path.getsize(file) for file in files_paths ]
-            size += sum(files_sizes)
-	
-        size = b_to_mb(size)
+        cmd="du -s %s" % directory
+        size=subprocess.Popen([cmd], stdout=subprocess.PIPE, shell=True).\
+                communicate()[0].split()[0]
+        size = kb_to_mb(size)
         date = now()
         print "DSIZE date: %s directory: %s size: %s" % (date, directory, size, )
         sizes.append({"date": date, "t":"DSIZE", "d1": HOSTNAME, "d2": directory, "V":size})
@@ -87,7 +84,6 @@ def main():
         process_exception("Error while sending data status: %(status)s errorDetails: %(errorDetails)s" % resp.json(), critical = True)
 
     sys.exit(EXIT_CODE if EXIT_CODE < 256 else 255)
-
 
 if __name__ == "__main__":
     logging.basicConfig(format = LOG_FMT, level = logging.INFO, datefmt = DATEFMT)
