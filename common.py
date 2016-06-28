@@ -10,6 +10,7 @@ HOSTNAME = os.uname()[1]
 CONFIG_FILE = "/etc/stats.yaml"
 DATEFMT = '%Y-%m-%d %H:%M:%S'
 LOG_FMT = "%(asctime)s %(levelname)-8.8s: %(message)s"
+DATA_DIR = '/var/stats_data'
 
 def process_exception(e, critical = False):
     global EXIT_CODE
@@ -26,6 +27,18 @@ def parse_config():
             return yaml.load(config_file)
         except Exception as e:
             process_exception(e, critical = True)
+
+# returns last_start_time
+# returns 0 if LSAT_START_FILE is not exists
+def touch_last_start_file(prefix=''):
+    file_name = "%s.%s" % (prefix, 'last_start')
+    last_start_path = os.path.join(DATA_DIR, file_name)
+    last_start_time = 0
+    if os.path.exists(last_start_path):
+        last_start_time = os.path.getmtime(last_start_path)
+
+    open(last_start_path, 'w').close()
+    return last_start_time
 
 def now():
     return time.strftime(DATEFMT)
@@ -66,3 +79,12 @@ def check_config_sections(sections=[], critical=False):
 
 logging.basicConfig(format = LOG_FMT, level = logging.INFO, datefmt = DATEFMT)
 config = parse_config()
+
+if not os.path.exists(DATA_DIR):
+    try:
+        os.makedirs(DATA_DIR)
+    except OSError as e:
+        process_exception(e, critical = True)
+
+if not os.path.isdir(DATA_DIR):
+    process_exception("%s is not directory" % DATA_DIR, critical = True)

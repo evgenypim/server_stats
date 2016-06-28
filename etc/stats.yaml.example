@@ -23,3 +23,15 @@ networking:
         interfaces:
                 - enp3s0
                 - br0
+
+apache_logs:
+# List of keys. The key is the value used in dim2
+	- website1:
+		# The glob of the files to scan for
+		file: /var/log/apache2/log_website1*.log
+		# The optional regex of the URI to process. This only processes php files.
+		# It is regular Python regular expr.
+		# see https://docs.python.org/2/library/re.html#regular-expression-syntax
+		url_filter: .php
+	- website2:
+		file: /var/log/apache2/log_website2*.log
