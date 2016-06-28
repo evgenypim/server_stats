@@ -78,7 +78,7 @@ def apache_stats():
             {'date': date, 't': 'LOG_REQUESTS', 'd1': common.HOSTNAME, 'd2': website_name, 'd3': avg_time},
         ])
 
-        return apache_logs_stats
+    return apache_logs_stats
 
 def main():
     stats = apache_stats()
