@@ -74,8 +74,8 @@ def apache_stats():
         date = common.now()
         print "LOGS date: %s website: %s count: %s duration: %s" % (date, website_name, count, avg_time)
         apache_logs_stats.extend([
-            {'date': date, 't': 'LOG_REQUESTS', 'd1': common.HOSTNAME, 'd2': website_name, 'd3': count},
-            {'date': date, 't': 'LOG_REQUESTS', 'd1': common.HOSTNAME, 'd2': website_name, 'd3': avg_time},
+            {'date': date, 't': 'LOG_REQUESTS-COUNT', 'd1': common.HOSTNAME, 'd2': website_name, 'v': count},
+            {'date': date, 't': 'LOG_REQUESTS-DURATION', 'd1': common.HOSTNAME, 'd2': website_name, 'v': avg_time},
         ])
 
     return apache_logs_stats
