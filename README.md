@@ -31,6 +31,11 @@ disks:
 	block_devs:
 	- sda1
 	- dm-0
+	
+        # full paths to dirs for dir size stats
+        dirs_size:
+        - /mnt/media/
+        - /tmp/
 
 # For network subsystem
 networking:
