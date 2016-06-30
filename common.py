@@ -72,7 +72,7 @@ def check_config_sections(sections=[], critical=False):
     for section_name in sections:
         section = section.get(section_name, None)
         if not section:
-            process_exception("config error: no section %s." % section_name, critica=critical)
+            process_exception("config error: no section %s." % section_name, critical = critical)
             return False
 
     return True

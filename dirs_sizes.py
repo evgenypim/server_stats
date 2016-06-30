@@ -4,6 +4,7 @@
 import os, subprocess
 import common
 
+# Returns size of directory in MB
 def dirs_size():
     sizes = []
     if not common.check_config_sections(['disks', 'dirs_size']):

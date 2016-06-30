@@ -53,6 +53,8 @@ def process_logs(log_name_pattern, url_regex=None):
 
     return (count, avg_time)
 
+
+# Returns # of requests and average response duration in ms.
 def apache_stats():
     apache_logs_stats = []
 
