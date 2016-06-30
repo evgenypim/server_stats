@@ -4,7 +4,7 @@
 import psutil
 import common
 
-# Returns used space for mount points from config
+# Returns used space for mount points from config in MB
 def disks_stats():
     usages=[]
     if not common.check_config_sections(['disks', 'mount_points']):
@@ -20,7 +20,7 @@ def disks_stats():
 
         date = common.now()
         print "DISK date: %s mount_point: %s used: %s" % (date, mount_point, used, )
-        usages.append({"date": date, "t":"DISK", "d1": common.HOSTNAME, "d2": mount_point, "V":used})
+        usages.append({"date": date, "t":"DISK-USAGE", "d1": common.HOSTNAME, "d2": mount_point, "V":used})
 
     return usages
 
@@ -33,12 +33,14 @@ def cpu_stats():
     date = common.now()
     print "CPU date: %s total: %s iowait: %s" % (date, user_system, iowait, )
     cpu_times = [
-            {"date": date, "t": "CPU", "d1": common.HOSTNAME, "d2": "iowait", "V": iowait},
-            {"date": date, "t": "CPU", "d1": common.HOSTNAME, "d2": "total",  "V": user_system},
-            ]
+            {"date": date, "t": "CPU-IOWAIT", "d1": common.HOSTNAME, "V": iowait},
+            {"date": date, "t": "CPU-TOTAL",  "d1": common.HOSTNAME, "V": user_system},
+        ]
 
     return cpu_times
 
+
+# Returns real memory and swap memory in MB
 def mem_stats():
     mem = psutil.virtual_memory()
     real_used = common.b_to_mb(mem.used - mem.buffers)
@@ -48,12 +50,14 @@ def mem_stats():
     print "MEM date: %s used: %s swap_used: %s" % (date, real_used, swap_used, )
 
     mem_stats = [
-            {"date": date, "t": "MEM", "d1": common.HOSTNAME, "d2": "used", "V": real_used},
-            {"date": date, "t": "MEM", "d1": common.HOSTNAME, "d2": "swap_used", "V": swap_used},
-            ]
+            {"date": date, "t": "MEM-USED", "d1": common.HOSTNAME, "V": real_used},
+            {"date": date, "t": "MEM-SWAP", "d1": common.HOSTNAME, "V": swap_used},
+        ]
 
     return mem_stats
 
+
+# Returns MB sent and received.
 def network_stats():
     network_bytes = []
     if not common.check_config_sections(['networking', 'interfaces']):
@@ -67,14 +71,19 @@ def network_stats():
             continue
 
         date = common.now()
-        print "NET date: %s interface: %s recv: %s sent: %s" % (date, interface, counter.bytes_recv, counter.bytes_sent, )
+        mb_rcv = common.b_to_mb(counter.bytes_recv)
+        mb_sent = common.b_to_mb(counter.bytes_sent)
+
+        print "NET date: %s interface: %s recv: %s sent: %s" % (date, interface, mb_rcv, mb_sent, )
         network_bytes.extend([
-                {"date": date, "t": "NET", "d1": common.HOSTNAME, "d2": interface, "d3": "recv", "V": counter.bytes_recv},
-                {"date": date, "t": "NET", "d1": common.HOSTNAME, "d2": interface, "d3": "sent", "V": counter.bytes_sent},
-                ])
+                {"date": date, "t": "NET-RCV", "d1": common.HOSTNAME, "d2": interface, "V": mb_rcv},
+                {"date": date, "t": "NET-SENT", "d1": common.HOSTNAME, "d2": interface, "V": mb_sent},
+            ])
 
     return network_bytes
 
+
+# Returns disk blocks read and written
 def io_stats():
     io_perdev = []
     if not common.check_config_sections(['disks', 'block_devs']):
@@ -90,9 +99,9 @@ def io_stats():
         date = common.now()
         print "DISK date: %s block_dev: %s reads: %s writes: %s" % (date, dev, counter.read_count, counter.write_count, )
         io_perdev.extend([
-               {"date": date, "t": "DISK", "d1": common.HOSTNAME, "d2": dev, "d3": "reads", "V": counter.read_count},
-               {"date": date, "t": "DISK", "d1": common.HOSTNAME, "d2": dev, "d3": "writes", "V": counter.write_count},
-               ])
+               {"date": date, "t": "DISK-READS", "d1": common.HOSTNAME, "d2": dev, "V": counter.read_count},
+               {"date": date, "t": "DISK-WRITES", "d1": common.HOSTNAME, "d2": dev, "V": counter.write_count},
+           ])
 
     return io_perdev
 
