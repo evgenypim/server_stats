@@ -1,5 +1,5 @@
 # server_stats
-script to collect some stats
+Utility scripts to collect stats on a regular basis and POST the data in JSON form to a remote server.
 
 # INSTALL
 ```
@@ -10,6 +10,11 @@ cp ./stats.yaml.example ./stats.yaml
 vi ./stats.yaml
 ln -sf /root/server_stats/etc/stats.yaml /etc/
 ```
+
+You need to execute the scripts via a crontab.  The script will then POST the data to a server you nominate.  Presumably you could set up a php script to post data to a PostgreSQL, Mongo or CouchDB database.  Then write a query interface for it.
+
+I am writing a service to POST the data to now.  It's in early stages at the moment, so go to www.oneit-software.com.au and contact me to have a go.  I'll work with you to smooth out features.
+
 # Dependencies
 apt-get install python-yaml python-psutil
 
@@ -19,9 +24,8 @@ stats.py
 apache_logs_stats.py
 dirs_sizes.py
 
-Each utility is executed and POSTS data to the api_url (e.g. from a cron job).  They all use a common config file /etc/stats.yaml
-
 The system will try to send as much data as it can, however an error will result in a non-0 result
+
 
 # Data Posted
 The system's goal is to POST data to the api_url, with a record like the following:
